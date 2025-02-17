@@ -1,9 +1,12 @@
 package com.fiuza.product_catalog.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -23,6 +26,10 @@ public class Product implements Serializable {
 
     @Column(nullable = false)
     private int stock;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
+    private Set<Category> categories = new HashSet<>();
 
     public UUID getId() {
         return id;
