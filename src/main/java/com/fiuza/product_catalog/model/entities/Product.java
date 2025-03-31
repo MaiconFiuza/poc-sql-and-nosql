@@ -1,6 +1,6 @@
-package com.fiuza.product_catalog.entities;
+package com.fiuza.product_catalog.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fiuza.product_catalog.model.enums.Category;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -19,17 +19,24 @@ public class Product implements Serializable {
     private UUID id;
 
     @Column(nullable = false, length = 100)
+    private String name;
+
+    @Column(nullable = false, length = 100)
     private String description;
 
     @Column(nullable = false)
     private double price;
 
     @Column(nullable = false)
-    private int stock;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private Set<Category> categories = new HashSet<>();
+
+    public Product(String name, String description, double price, Set<Category> categories){
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.categories = categories;
+    }
+
 
     public UUID getId() {
         return id;
@@ -51,11 +58,24 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public int getStock() {
-        return stock;
+
+    public Set<Category> getCategories() {
+        return categories;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
